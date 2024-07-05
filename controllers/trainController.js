@@ -11,11 +11,11 @@ exports.getStations = async (req, res) => {
     }
 };
 
-//get all Stations
+//get one station
 exports.getStationByName = async (req, res) => {
     try {
-        const stations = await Station.findOne({stationName:req.params.stationName});
-        console.log(req.params.stationName);
+        const stations = await Station.findOne({stationName:req.query.stationName});
+        console.log(req.query.stationName);
         res.json(stations);
     } catch (err) {
         res.status(500).json({ message: err.message });
@@ -23,8 +23,6 @@ exports.getStationByName = async (req, res) => {
 };
 
 
-// Ensure you have required the Station model
-//const Station = require('../models/Station'); // Adjust the path as necessary
 
 
 
