@@ -4,7 +4,7 @@ const mongoose = require('mongoose');
 // Train schema and model
 const trainSchema = new mongoose.Schema({
     trainNumber: { type: String, required: true },
-    trainName : {type: String, required: true },
+    routeNumber: { type: String, required: true },
     currentLocation: {
         coordinates: {
             type: [Number], // [longitude, latitude]
@@ -16,6 +16,6 @@ const trainSchema = new mongoose.Schema({
     Timestamp: { type: Date, default: Date.now }
 });
 
-const Train = mongoose.model('Train', trainSchema);
+const Line = mongoose.model('Line', trainSchema);
 
-module.exports = Train;
+module.exports = Line;
