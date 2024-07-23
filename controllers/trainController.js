@@ -80,3 +80,12 @@ exports.createLine = async (req, res) => {
 };
 
 
+exports.getDetails= async (req, res) => {
+    try {
+        const lines = await Line.find();
+        console.log(req.query.stationName);
+        res.json(lines);
+    } catch (err) {
+        res.status(500).json({ message: err.message });
+    }
+};

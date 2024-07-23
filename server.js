@@ -2,6 +2,7 @@ const express = require('express');
 const mongoose = require('mongoose');
 const bodyParser = require('body-parser');
 require('dotenv').config();
+const cors = require('cors');
 const trainRoutes = require('./routes/trainRoutes');
 
 const app = express();
@@ -10,7 +11,7 @@ const port = 3000;
 // Middleware
 //app.use(bodyParser.json());
 app.use(express.json());
-
+app.use(cors());
 // MongoDB connection
 const mongoURI = process.env.MONGODB_URI;
 mongoose.connect(mongoURI, { useNewUrlParser: true, useUnifiedTopology: true })
