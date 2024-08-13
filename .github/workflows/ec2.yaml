@@ -21,9 +21,6 @@ jobs:
     - name: Install dependencies
       run: npm install
 
-    - name: Build project
-      run: npm run build # Optional: if you have a build step
-
     - name: Archive project files
       run: zip -r node-app.zip .
 
