@@ -1,21 +1,28 @@
 const { Timestamp } = require('mongodb');
 const mongoose = require('mongoose');
 
-// Train schema and model
-const trainSchema = new mongoose.Schema({
-    trainNumber: { type: String, required: true },
-    routeNumber: { type: String, required: true },
-    currentLocation: {
-        coordinates: {
-            type: [Number], // [longitude, latitude]
+// Lines schema and model
+const lineSchema = new mongoose.Schema({
+    lineNumber: { type: String, required: true },
+    lineName: {type:String,required:true},
+    junctions: {
+        have: {
+            type: [String], // [longitude, latitude]
             // index: '2dsphere' ,// Geospatial index for coordinates
-            required: true
+            required: false,
+            // validate: {
+            //     validator: function(array) {
+            //         return array.length > 0;
+            //     },
+            //     message: 'Junctions array cannot be empty'
+            // }
         }
     },
-
+    startStation: {type:String,required:true},
+    endStation:{type:String,required:true},
     Timestamp: { type: Date, default: Date.now }
 });
 
-const Line = mongoose.model('Line', trainSchema);
+const Line = mongoose.model('Line', lineSchema);
 
 module.exports = Line;
