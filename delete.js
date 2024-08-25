@@ -11,7 +11,7 @@ async function run() {
 
         // Select the database and collection
         const database = client.db('test');
-        const collection = database.collection('lines');
+        const collection = database.collection('stations');
 
         // Delete all documents in the collection
         const result = await collection.deleteMany({});

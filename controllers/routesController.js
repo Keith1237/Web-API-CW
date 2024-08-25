@@ -14,7 +14,8 @@ exports.createRoute = async (req, res) => {
             coordinates: req.body.coordinates
         },
         startStation: req.body.startStation,
-        endStation: req.body.endStation
+        endStation: req.body.endStation,
+        stationsInRoute: req.body.stationsInRoute
     });
 
     try {
@@ -28,9 +29,22 @@ exports.createRoute = async (req, res) => {
 exports.getRoutes= async (req, res) => {
     try {
         const routes = await Route.find();
-        console.log(req.query.stationName);
+       
         res.json(routes);
     } catch (err) {
         res.status(500).json({ message: err.message });
+    }
+};
+
+exports.getRoutesByStations = async (req, res) => {
+    try {
+        const routes = await Route.find({
+            stationsInRoute: {
+                $all: [req.query.startStation, req.query.endStation]
+            }
+        });
+        res.json(routes);
+    } catch (error) {
+        res.status(500).json({ error: error.message });
     }
 };

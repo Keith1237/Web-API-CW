@@ -20,6 +20,7 @@ const routeSchema = new mongoose.Schema({
             required: true
         }
     },
+    stationsInRoute: { type: [String], required: true },
     Timestamp: { type: Date, default: Date.now }
 });
 
