@@ -1,4 +1,4 @@
-const Route = require('../models/routes');
+const Route = require('../models/railwayRoute');
 
 
 exports.createRoute = async (req, res) => {
@@ -7,17 +7,12 @@ exports.createRoute = async (req, res) => {
             type: 'Point',
             lines: req.body.lines
         },
-        trainNumber: req.body.trainNumber,
         routeNumber: req.body.routeNumber,
-        currentLocation: {
-            type: 'Point',
-            coordinates: req.body.coordinates
-        },
         startStation: req.body.startStation,
         endStation: req.body.endStation,
+        distance: req.body.distance,
         stationsInRoute: req.body.stationsInRoute
     });
-
     try {
         const newRoute = await route.save();
         res.status(201).json(newRoute);
@@ -48,3 +43,18 @@ exports.getRoutesByStations = async (req, res) => {
         res.status(500).json({ error: error.message });
     }
 };
+
+exports.deleteRoute = async (req, res) => {
+    try {
+        const route = await Route.findByIdAndDelete(req.params.routeNumber);
+
+        if (!route) {
+            return res.status(404).json({ message: 'Route not found' });
+        }
+
+        res.json({ message: 'Route deleted successfully' });
+    } catch (err) {
+        res.status(500).json({ message: err.message });
+    }
+};
+
