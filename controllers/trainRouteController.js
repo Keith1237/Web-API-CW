@@ -53,15 +53,3 @@ exports.getTrainRoutes= async (req, res) => {
     }
 };
 
-// exports.getRoutesByStations = async (req, res) => {
-//     try {
-//         const routes = await Route.find({
-//             stationsInRoute: {
-//                 $all: [req.query.startStation, req.query.endStation]
-//             }
-//         });
-//         res.json(routes);
-//     } catch (error) {
-//         res.status(500).json({ error: error.message });
-//     }
-// };

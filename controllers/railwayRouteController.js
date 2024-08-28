@@ -1,6 +1,7 @@
 // const { MongoCryptInvalidArgumentError } = require('mongodb');
 const Route = require('../models/railwayRoute');
 const Line = require('../models/lines');
+const trainRoute = require('../models/trainRoute');
 
 
 exports.createRoute = async (req, res) => {
@@ -17,7 +18,7 @@ exports.createRoute = async (req, res) => {
     });
     try {
         const haveRouteNumber = await Route.findOne({ routeNumber: req.body.routeNumber });
-        console.log(haveRouteNumber);
+        
         if (haveRouteNumber) {
             return res.status(400).json({ message: 'Railway route with this Route Number already exists.' });
         }
@@ -71,6 +72,15 @@ exports.getRoutesByStations = async (req, res) => {
 
 exports.deleteRoute = async (req, res) => {
     try {
+        const haveRouteNumber = await Route.findOne({ routeNumber: req.query.routeNumber });
+        if (!haveRouteNumber) {
+            return res.status(400).json({ message: 'Railway route with this Route Number does not exist.' });
+        }
+        const includedInTrainRoute = await trainRoute.findOne({ routeNumber: req.query.routeNumber });
+        if (includedInTrainRoute) {
+            return res.status(400).json({ message: 'Railway route with this Route Number connected with train in train route.' });
+        }
+
         const route = await Route.findOneAndDelete({ routeNumber: req.query.routeNumber });
 
         if (!route) {
