@@ -7,6 +7,10 @@ exports.createAdmin = async (req, res) => {
     });
 
     try {
+        const isAdmin = await Admin.findOne({ username: req.body.username });
+        if (isAdmin) {
+            return res.status(400).json({ message: 'Admin with this user name already exists.' });
+        }
         const newAdmin= await admin.save();
         res.status(201).json(newAdmin);
     } catch (err) {
