@@ -12,6 +12,15 @@ exports.createStation = async (req, res) => {
     });
 
     try {
+        const existingStation = await Station.findOne({ stationNumber: req.body.stationNumber });
+        const alreadyHaveName = await Station.findOne({stationName: req.body.stationName});
+        
+        if (existingStation) {
+            return res.status(400).json({ message: 'Station with this number already exists.' });
+        }
+        if(alreadyHaveName){
+            return res.status(400).json({ message: 'Station with this name already exists.' });
+        }
         const newStation = await station.save();
         res.status(201).json(newStation);
     } catch (err) {
