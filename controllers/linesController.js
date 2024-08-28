@@ -14,6 +14,15 @@ exports.createLine = async (req, res) => {
     });
 
     try {
+        const alreadyHaveLine = await Line.findOne({ lineNumber: req.body.lineNumber });
+        const alreadyHaveName = await Line.findOne({lineName: req.body.lineName});
+        
+        if (alreadyHaveLine) {
+            return res.status(400).json({ message: 'Line with this number already exists.' });
+        }
+        if(alreadyHaveName){
+            return res.status(400).json({ message: 'Line with this name already exists.' });
+        }
         const newLine = await line.save();
         res.status(201).json(newLine);
     } catch (err) {
