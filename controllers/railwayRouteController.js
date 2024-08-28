@@ -46,7 +46,7 @@ exports.getRoutesByStations = async (req, res) => {
 
 exports.deleteRoute = async (req, res) => {
     try {
-        const route = await Route.findByIdAndDelete(req.params.routeNumber);
+        const route = await Route.findOneAndDelete({ routeNumber: req.query.routeNumber });
 
         if (!route) {
             return res.status(404).json({ message: 'Route not found' });
@@ -57,4 +57,5 @@ exports.deleteRoute = async (req, res) => {
         res.status(500).json({ message: err.message });
     }
 };
+
 

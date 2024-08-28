@@ -28,5 +28,6 @@ router.delete('/railwayRoutes',railwayRouteContoller.deleteRoute);
 
 router.post('/admin',adminController.createAdmin);
 router.get('/admin',adminController.getAdmin);
+router.delete('/admin',adminController.deleteAdmin);
 
 module.exports = router;
