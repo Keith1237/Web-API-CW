@@ -3,7 +3,7 @@ const mongoose = require('mongoose');
 const bodyParser = require('body-parser');
 require('dotenv').config();
 const cors = require('cors');
-const trainRoutes = require('./routes/trainRoutes');
+const trainRoutes = require('./routes/routes');
 
 const app = express();
 const port = 3000;
@@ -12,7 +12,7 @@ const port = 3000;
 //app.use(bodyParser.json());
 app.use(express.json());
 app.use(cors());
-// MongoDB connection
+
 const mongoURI = process.env.MONGODB_URI;
 mongoose.connect(mongoURI, { useNewUrlParser: true, useUnifiedTopology: true })
     .then(() => console.log("Mongodb Connected"))
@@ -20,7 +20,7 @@ mongoose.connect(mongoURI, { useNewUrlParser: true, useUnifiedTopology: true })
 
 app.use('/trains', trainRoutes);
 
-// Start the server
+
 app.listen(port, () => {
     console.log(`Server is running on port ${port}`);
 });

@@ -5,14 +5,6 @@ const mongoose = require('mongoose');
 const trainSchema = new mongoose.Schema({
     trainNumber: { type: String, required: true },
     trainName : {type: String, required: true },
-    currentLocation: {
-        coordinates: {
-            type: [Number], // [longitude, latitude]
-            // index: '2dsphere' ,// Geospatial index for coordinates
-            required: true
-        }
-    },
-
     Timestamp: { type: Date, default: Date.now }
 });
 
