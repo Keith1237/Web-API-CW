@@ -20,6 +20,8 @@ router.get('/lines',linesController.getDetails);
 router.get('/trainRoute',trainRouteController.getTrainRoutes);
 router.post('/trainRoute',trainRouteController.createTrainRoute);
 router.put('/trainRoute',trainRouteController.updateTrainRoute);
+router.put('/updateLocationByNumber',trainRouteController.updateCurrentLocation);
+router.get('/trainRouteByNumber',trainRouteController.getTrainRoutesByNumber);
 
 router.post('/railwayRoutes',railwayRouteContoller.createRoute);
 router.get('/railwayRoutes',railwayRouteContoller.getRoutes);

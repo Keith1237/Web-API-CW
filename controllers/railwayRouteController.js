@@ -1,4 +1,4 @@
-// const { MongoCryptInvalidArgumentError } = require('mongodb');
+
 const Route = require('../models/railwayRoute');
 const Line = require('../models/lines');
 const trainRoute = require('../models/trainRoute');
@@ -23,15 +23,15 @@ exports.createRoute = async (req, res) => {
             return res.status(400).json({ message: 'Railway route with this Route Number already exists.' });
         }
 
-        const lineNumbers = req.body.lines; // The array of line numbers to check
+        const lineNumbers = req.body.lines; 
 
-        // Check if each line number exists in the 'lines' collection
+        
         const linesExist = await Promise.all(lineNumbers.map(async (lineNumber) => {
           const line = await Line.findOne({ lineNumber });
           return line !== null;
         }));
     
-        // If every line exists in the collection
+       
         const allLinesExist = linesExist.every(Boolean);
     
         if (!allLinesExist) {
