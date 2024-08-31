@@ -1,0 +1,545 @@
+openapi: 3.0.0
+info:
+  title: Train Management API
+  description: API for managing trains, stations, lines, routes, and admin actions.
+  version: 1.0.0
+servers:
+  - url: http://localhost:3000/trains
+    description: Development server
+
+paths:
+  /:
+    get:
+      summary: Get all trains
+      responses:
+        '200':
+          description: A list of trains
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Train'
+        '500':
+          description: Server error
+
+    post:
+      summary: Create a new train
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/TrainInput'
+      responses:
+        '201':
+          description: Train created successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Train'
+        '400':
+          description: Bad request
+
+  /Stations:
+    get:
+      summary: Get all stations
+      responses:
+        '200':
+          description: A list of stations
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Station'
+        '500':
+          description: Server error
+
+    post:
+      summary: Create a new station
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/StationInput'
+      responses:
+        '201':
+          description: Station created successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Station'
+        '400':
+          description: Bad request
+
+  /getStationByName:
+    get:
+      summary: Get a station by name
+      parameters:
+        - in: query
+          name: stationName
+          schema:
+            type: string
+          required: true
+          description: The name of the station
+      responses:
+        '200':
+          description: A single station
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Station'
+        '404':
+          description: Station not found
+        '500':
+          description: Server error
+
+  /lines:
+    get:
+      summary: Get all lines
+      responses:
+        '200':
+          description: A list of lines
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Line'
+        '500':
+          description: Server error
+
+    post:
+      summary: Create a new line
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/LineInput'
+      responses:
+        '201':
+          description: Line created successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Line'
+        '400':
+          description: Bad request
+
+  /trainRoute:
+    get:
+      summary: Get all train routes
+      responses:
+        '200':
+          description: A list of train routes
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/TrainRoute'
+        '500':
+          description: Server error
+
+    post:
+      summary: Create a new train route
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/TrainRouteInput'
+      responses:
+        '201':
+          description: Train route created successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TrainRoute'
+        '400':
+          description: Bad request
+
+    put:
+      summary: Update a train route
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/TrainRouteInput'
+      responses:
+        '200':
+          description: Train route updated successfully
+        '400':
+          description: Bad request
+
+  /updateLocationByNumber:
+    put:
+      summary: Update train location by number
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                trainNumber:
+                  type: string
+                coordinates:
+                  type: array
+                  items:
+                    type: number
+                    description: Latitude and Longitude
+              required:
+                - trainNumber
+                - coordinates
+      responses:
+        '200':
+          description: Train location updated successfully
+        '400':
+          description: Bad request
+
+  /trainRouteByNumber:
+    get:
+      summary: Get train route by number
+      parameters:
+        - in: query
+          name: trainRouteNumber
+          schema:
+            type: string
+          required: true
+          description: The number of the train route
+      responses:
+        '200':
+          description: A single train route
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TrainRoute'
+        '404':
+          description: Train route not found
+        '500':
+          description: Server error
+
+  /railwayRoutes:
+    get:
+      summary: Get all railway routes
+      responses:
+        '200':
+          description: A list of railway routes
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/RailwayRoute'
+        '500':
+          description: Server error
+
+    post:
+      summary: Create a new railway route
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/RailwayRouteInput'
+      responses:
+        '201':
+          description: Railway route created successfully
+        '400':
+          description: Bad request
+
+    delete:
+      summary: Delete a railway route
+      parameters:
+        - in: query
+          name: routeNumber
+          schema:
+            type: string
+          required: true
+          description: The number of the railway route to delete
+      responses:
+        '200':
+          description: Railway route deleted successfully
+        '404':
+          description: Railway route not found
+        '500':
+          description: Server error
+
+  /railwayRoutesByStations:
+    get:
+      summary: Get railway routes by start and end stations
+      parameters:
+        - in: query
+          name: startStation
+          schema:
+            type: string
+          required: true
+          description: The name of the start station
+        - in: query
+          name: endStation
+          schema:
+            type: string
+          required: true
+          description: The name of the end station
+      responses:
+        '200':
+          description: A list of railway routes
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/RailwayRoute'
+        '404':
+          description: Railway route not found
+        '500':
+          description: Server error
+
+  /admin:
+    get:
+      summary: Get all admins
+      responses:
+        '200':
+          description: A list of admins
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Admin'
+        '500':
+          description: Server error
+
+    post:
+      summary: Create a new admin
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/AdminInput'
+      responses:
+        '201':
+          description: Admin created successfully
+        '400':
+          description: Bad request
+
+    delete:
+      summary: Delete an admin
+      parameters:
+        - in: query
+          name: adminId
+          schema:
+            type: string
+          required: true
+          description: The ID of the admin to delete
+      responses:
+        '200':
+          description: Admin deleted successfully
+        '404':
+          description: Admin not found
+        '500':
+          description: Server error
+
+components:
+  schemas:
+    Train:
+      type: object
+      properties:
+        trainNumber:
+          type: string
+        trainName:
+          type: string
+        Timestamp:
+          type: string
+          format: date-time
+
+    TrainInput:
+      type: object
+      properties:
+        trainNumber:
+          type: string
+        trainName:
+          type: string
+      required:
+        - trainNumber
+        - trainName
+
+    Station:
+      type: object
+      properties:
+        stationNumber:
+          type: string
+        stationName:
+          type: string
+        coordinates:
+          type: array
+          items:
+            type: number
+          description: Latitude and Longitude
+
+    StationInput:
+      type: object
+      properties:
+        stationNumber:
+          type: string
+        stationName:
+          type: string
+        coordinates:
+          type: array
+          items:
+            type: number
+      required:
+        - stationNumber
+        - stationName
+        - coordinates
+
+    Line:
+      type: object
+      properties:
+        lineNumber:
+          type: string
+        lineName:
+          type: string
+        startStation:
+          type: string
+        endStation:
+          type: string
+        have:
+          type: array
+          items:
+            type: string
+
+    LineInput:
+      type: object
+      properties:
+        lineNumber:
+          type: string
+        lineName:
+          type: string
+        startStation:
+          type: string
+        endStation:
+          type: string
+        have:
+          type: array
+          items:
+            type: string
+      required:
+        - lineNumber
+        - lineName
+        - startStation
+        - endStation
+        - have
+
+    TrainRoute:
+      type: object
+      properties:
+        trainRouteNumber:
+          type: string
+        routeNumber:
+          type: string
+        trainNumber:
+          type: string
+        departure:
+          type: string
+          format: date-time
+        arrival:
+          type: string
+          format: date-time
+
+    TrainRouteInput:
+      type: object
+      properties:
+        trainRouteNumber:
+          type: string
+        routeNumber:
+          type: string
+        trainNumber:
+          type: string
+        departure:
+          type: string
+        arrival:
+          type: string
+      required:
+        - trainRouteNumber
+        - routeNumber
+        - trainNumber
+        - departure
+        - arrival
+
+    RailwayRoute:
+      type: object
+      properties:
+        routeNumber:
+          type: string
+        trainNumber:
+          type: string
+        startStation:
+          type: string
+        endStation:
+          type: string
+        stationsInRoute:
+          type: array
+          items:
+            type: string
+        currentLocation:
+          type: array
+          items:
+            type: number
+        Timestamp:
+          type: string
+          format: date-time
+
+    RailwayRouteInput:
+      type: object
+      properties:
+        routeNumber:
+          type: string
+        trainNumber:
+          type: string
+        startStation:
+          type: string
+        endStation:
+          type: string
+        stationsInRoute:
+          type: array
+          items:
+            type: string
+        currentLocation:
+          type: array
+          items:
+            type: number
+      required:
+        - routeNumber
+        - trainNumber
+        - startStation
+        - endStation
+        - stationsInRoute
+        - currentLocation
+
+    Admin:
+      type: object
+      properties:
+        adminId:
+          type: string
+        username:
+          type: string
+        password:
+          type: string
+
+    AdminInput:
+      type: object
+      properties:
+        username:
+          type: string
+        password:
+          type: string
+      required:
+        - username
+        - password
