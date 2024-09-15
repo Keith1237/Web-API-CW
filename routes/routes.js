@@ -6,8 +6,9 @@ const linesController = require('../controllers/linesController');
 const trainRouteController = require('../controllers/trainRouteController');
 const railwayRouteContoller = require('../controllers/railwayRouteController');
 const adminController = require('../controllers/adminController');
+const authenticateJWT = require('../middleware/jwt');
 
-router.post('', trainController.createTrain);
+router.post('', authenticateJWT,trainController.createTrain);
 router.get('',trainController.getTrains);
 
 router.post('/Stations',stationController.createStation); 
@@ -31,5 +32,6 @@ router.delete('/railwayRoutes',railwayRouteContoller.deleteRoute);
 router.post('/admin',adminController.createAdmin);
 router.get('/admin',adminController.getAdmin);
 router.delete('/admin',adminController.deleteAdmin);
+router.post('/admin/login', adminController.login);
 
 module.exports = router;
