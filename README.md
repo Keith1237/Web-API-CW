@@ -1,9 +1,4 @@
 # Web-API-CW
 
-## Buid with
-
-This section list frameworks/libraries that I used in project.
-
-<img align="left" alt="Coding" width="60" src="https://raw.githubusercontent.com/devicons/devicon/master/icons/mongodb/mongodb-original-wordmark.svg">
-
-<img align="left" alt="Coding" width="60" src="https://raw.githubusercontent.com/devicons/devicon/master/icons/nodejs/nodejs-original-wordmark.svg">
+Backend Deploy URL - [http://3.84.60.234:3000/trains](http://3.84.60.234:3000/trains)
+Backend Deploy URL with domain - [http://keiths.live/trains](http://keiths.live/trains)
